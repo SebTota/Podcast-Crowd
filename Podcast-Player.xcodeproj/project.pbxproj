@@ -13,6 +13,7 @@
 		4DFB23C52620C6DE00D0A5B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DFB23C32620C6DE00D0A5B5 /* Main.storyboard */; };
 		4DFB23C72620C6E500D0A5B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DFB23C62620C6E500D0A5B5 /* Assets.xcassets */; };
 		4DFB23CA2620C6E500D0A5B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DFB23C82620C6E500D0A5B5 /* LaunchScreen.storyboard */; };
+		4DFB23D52620CF0F00D0A5B5 /* podcast.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4DFB23D42620CF0E00D0A5B5 /* podcast.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		4DFB23C62620C6E500D0A5B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4DFB23C92620C6E500D0A5B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4DFB23CB2620C6E500D0A5B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4DFB23D42620CF0E00D0A5B5 /* podcast.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = podcast.mp3; path = Podcasts/podcast.mp3; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		4DFB23BC2620C6DE00D0A5B5 /* Podcast-Player */ = {
 			isa = PBXGroup;
 			children = (
+				4DFB23D42620CF0E00D0A5B5 /* podcast.mp3 */,
 				4DFB23BD2620C6DE00D0A5B5 /* AppDelegate.swift */,
 				4DFB23BF2620C6DE00D0A5B5 /* SceneDelegate.swift */,
 				4DFB23C12620C6DE00D0A5B5 /* ViewController.swift */,
@@ -127,6 +130,7 @@
 				4DFB23CA2620C6E500D0A5B5 /* LaunchScreen.storyboard in Resources */,
 				4DFB23C72620C6E500D0A5B5 /* Assets.xcassets in Resources */,
 				4DFB23C52620C6DE00D0A5B5 /* Main.storyboard in Resources */,
+				4DFB23D52620CF0F00D0A5B5 /* podcast.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
