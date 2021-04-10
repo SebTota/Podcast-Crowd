@@ -14,12 +14,13 @@ class ViewController: UIViewController {
     let showsTableViewCellName: String = "ShowsTableViewCell"
     let showsTableViewCellReusableIdentifier: String = "ShowsTableViewCell"
 
-    var showRssFeeds = ["https://feeds.megaphone.fm/stufftheydontwantyoutoknow"]
+    var showRssFeeds = ["https://feeds.megaphone.fm/stufftheydontwantyoutoknow", "https://feeds.megaphone.fm/stuffyoushouldknow", "https://feeds.megaphone.fm/replyall", "https://feeds.feedburner.com/WaveformWithMkbhd?format=xml"]
     var shows: [Show] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initShowsTableView()
+        createShows()
     }
     
     private func initShowsTableView() {
@@ -29,66 +30,22 @@ class ViewController: UIViewController {
     }
     
     private func createShows() {
+        for show in showRssFeeds {
+            if let showUrl = URL(string: show) {
+                let p = RssFeedParser(url: showUrl)
+                p.parseFeed { (show: Show?) in
+                    print("A show has been returned")
+                    if let show = show {
+                        self.shows.append(show)
+                        DispatchQueue.main.async {
+                            print("Done loading in a show")
+                            self.showsTableView.reloadData()
+                        }
+                    }
+                }
+            }
+        }
     }
-    
-    
-    let feedURL = URL(string: "https://feeds.megaphone.fm/stufftheydontwantyoutoknow")
-     
-    let parser = FeedParser(URL: feedURL!)
-    parser.parseAsync(queue: DispatchQueue.global(qos: .userInitiated)) { (result) in
-         DispatchQueue.main.async {
-             switch result {
-                 case .success(let feed):
-                     let photoURL = URL(string: feed.rssFeed!.image!.url!)!
-                     self.downloadImage(from: photoURL)
-                     
-    //                        if let feed = feed.rssFeed {
-    //                            print(feed.items)
-    //
-    //                            if let items = feed.items {
-    //                                for item in items {
-    //                                    if let enclosure = item.enclosure {
-    //                                        print(enclosure)
-    //                                        if let att = enclosure.attributes {
-    //                                            print(att)
-    //                                        }
-    //                                        if let url = enclosure.attributes?.url {
-    //                                            print(url)
-    //                                        }
-    //                                    }
-    //                                }
-    //                            }
-    //                        }
-                     
-                     if let first = feed.rssFeed?.items?.first {
-                         
-                         if let url = first.enclosure?.attributes?.url, let description = first.description, let title = first.title {
-                             
-                             let episode = Episode(title: title, audioUrl: URL(string: url)!, description: description, showTitle: "test")
-                             episode.getEpisode { (audioPlayer: AVAudioPlayer?) in
-                                 DispatchQueue.main.async() {
-                                     if let audioPlayer = audioPlayer {
-                                         self.audioPlayer = audioPlayer
-                                         print("Ready to play audio")
-                                         do {
-                                             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default, options: [AVAudioSession.CategoryOptions.mixWithOthers])
-                                         } catch {
-                                             print(error)
-                                         }
-                                     } else {
-                                         print("Error downloading file")
-                                     }
-                                 }
-                             }
-                         }
-                     }
-                 case .failure(let error):
-                     print(error)
-                 }
-         }
-     }
-    
-    
 }
 
 
@@ -101,11 +58,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let row = showsTableView.dequeueReusableCell(withIdentifier: showsTableViewCellReusableIdentifier, for: indexPath) as! ShowsTableViewCell
         
 
-        //let show = shows[indexPath.item]
+        let show = shows[indexPath.item]
         // row.titleLabel.text = show.getTitle()
 
-        row.title.text = ""
-        
+        row.title.text = show.getTitle()
+        row.descriptionLabel.text = show.getDescription()
         return row
     }
 }

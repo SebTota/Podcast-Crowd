@@ -11,20 +11,22 @@ import UIKit
 class Show {
     
     private var title: String
+    private var imageUrl: URL?
     private var description: String
     private var episodes: [Episode] = []
     
-    init(title: String, description: String, episodes: [Episode]?) {
+    init(title: String, description: String, imageUrl: URL?) {
         self.title = title
         self.description = description
-        
-        if let episodes = episodes {
-            self.episodes = episodes
-        }
+        self.imageUrl = imageUrl
     }
     
     func getTitle() -> String {
         return self.title
+    }
+    
+    func getDescription() -> String {
+        return self.description
     }
     
     func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
@@ -41,5 +43,9 @@ class Show {
                 // self.podcastImage.image = UIImage(data: data)
             }
         }
+    }
+    
+    func setEpisodes(episodes: [Episode]) {
+        self.episodes = episodes
     }
 }
