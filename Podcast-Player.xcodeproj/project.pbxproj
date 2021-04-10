@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		2076DF9C8187502575A961EF /* Pods_Podcast_Player.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A4C6A64C05144FC219DED3 /* Pods_Podcast_Player.framework */; };
+		4DBE70D32621D2CD001C0D47 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBE70D22621D2CD001C0D47 /* ViewController.swift */; };
+		4DBE70D82621D76F001C0D47 /* ShowsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBE70D72621D76F001C0D47 /* ShowsTableViewCell.swift */; };
+		4DBE70DF2621DA68001C0D47 /* FeedParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBE70DE2621DA68001C0D47 /* FeedParser.swift */; };
 		4DFB23BE2620C6DE00D0A5B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFB23BD2620C6DE00D0A5B5 /* AppDelegate.swift */; };
 		4DFB23C02620C6DE00D0A5B5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFB23BF2620C6DE00D0A5B5 /* SceneDelegate.swift */; };
-		4DFB23C22620C6DE00D0A5B5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFB23C12620C6DE00D0A5B5 /* ViewController.swift */; };
 		4DFB23C52620C6DE00D0A5B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DFB23C32620C6DE00D0A5B5 /* Main.storyboard */; };
 		4DFB23C72620C6E500D0A5B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DFB23C62620C6E500D0A5B5 /* Assets.xcassets */; };
 		4DFB23CA2620C6E500D0A5B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DFB23C82620C6E500D0A5B5 /* LaunchScreen.storyboard */; };
@@ -21,10 +23,12 @@
 
 /* Begin PBXFileReference section */
 		14B91195ADE2F87C507D9A11 /* Pods-Podcast-Player.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Podcast-Player.release.xcconfig"; path = "Target Support Files/Pods-Podcast-Player/Pods-Podcast-Player.release.xcconfig"; sourceTree = "<group>"; };
+		4DBE70D22621D2CD001C0D47 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4DBE70D72621D76F001C0D47 /* ShowsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowsTableViewCell.swift; sourceTree = "<group>"; };
+		4DBE70DE2621DA68001C0D47 /* FeedParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedParser.swift; sourceTree = "<group>"; };
 		4DFB23BA2620C6DE00D0A5B5 /* Podcast-Player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Podcast-Player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DFB23BD2620C6DE00D0A5B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4DFB23BF2620C6DE00D0A5B5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		4DFB23C12620C6DE00D0A5B5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4DFB23C42620C6DE00D0A5B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4DFB23C62620C6E500D0A5B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4DFB23C92620C6E500D0A5B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -72,13 +76,15 @@
 				4DFB23D42620CF0E00D0A5B5 /* podcast.mp3 */,
 				4DFB23BD2620C6DE00D0A5B5 /* AppDelegate.swift */,
 				4DFB23BF2620C6DE00D0A5B5 /* SceneDelegate.swift */,
-				4DFB23C12620C6DE00D0A5B5 /* ViewController.swift */,
 				4DFB23C32620C6DE00D0A5B5 /* Main.storyboard */,
 				4DFB23C62620C6E500D0A5B5 /* Assets.xcassets */,
 				4DFB23C82620C6E500D0A5B5 /* LaunchScreen.storyboard */,
 				4DFB23CB2620C6E500D0A5B5 /* Info.plist */,
 				4DFB23DB26210C6600D0A5B5 /* Show.swift */,
 				4DFB23E126210E8500D0A5B5 /* Episode.swift */,
+				4DBE70D22621D2CD001C0D47 /* ViewController.swift */,
+				4DBE70D72621D76F001C0D47 /* ShowsTableViewCell.swift */,
+				4DBE70DE2621DA68001C0D47 /* FeedParser.swift */,
 			);
 			path = "Podcast-Player";
 			sourceTree = "<group>";
@@ -215,8 +221,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4DFB23C22620C6DE00D0A5B5 /* ViewController.swift in Sources */,
+				4DBE70D32621D2CD001C0D47 /* ViewController.swift in Sources */,
 				4DFB23BE2620C6DE00D0A5B5 /* AppDelegate.swift in Sources */,
+				4DBE70D82621D76F001C0D47 /* ShowsTableViewCell.swift in Sources */,
+				4DBE70DF2621DA68001C0D47 /* FeedParser.swift in Sources */,
 				4DFB23DC26210C6700D0A5B5 /* Show.swift in Sources */,
 				4DFB23E226210E8500D0A5B5 /* Episode.swift in Sources */,
 				4DFB23C02620C6DE00D0A5B5 /* SceneDelegate.swift in Sources */,
