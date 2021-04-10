@@ -25,6 +25,14 @@ class Episode {
         self.audioPath = documentsDirectoryURL.appendingPathComponent(audioUrl.lastPathComponent)
     }
     
+    func getTitle() -> String {
+        return self.title
+    }
+    
+    func getDescription() -> String {
+        return self.description
+    }
+    
     /*
      * Download the audio file for this episode to local storage
      */

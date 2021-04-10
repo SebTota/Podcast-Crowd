@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     
     let showsTableViewCellName: String = "ShowsTableViewCell"
     let showsTableViewCellReusableIdentifier: String = "ShowsTableViewCell"
+    let showToEpisodeSegueIdentifier: String = "ShowToEpisodeSegueIdentifier"
 
     var showRssFeeds = ["https://feeds.megaphone.fm/stufftheydontwantyoutoknow", "https://feeds.megaphone.fm/stuffyoushouldknow", "https://feeds.megaphone.fm/replyall", "https://feeds.feedburner.com/WaveformWithMkbhd?format=xml"]
     var shows: [Show] = []
@@ -64,5 +65,25 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         row.title.text = show.getTitle()
         row.descriptionLabel.text = show.getDescription()
         return row
+    }
+    
+    /*
+    * Segue action prepare statements. Helps send data between view controllers upon a new segue
+    */
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == showToEpisodeSegueIdentifier {
+            if let viewController = segue.destination as? EpisodesViewController {
+                viewController.show = (sender as! Show)
+            }
+        }
+    }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let show: Show = shows[indexPath.item]
+        
+        dispatch_queue_main_t.main.async() {
+            self.performSegue(withIdentifier: self.showToEpisodeSegueIdentifier, sender: show)
+        }
     }
 }
