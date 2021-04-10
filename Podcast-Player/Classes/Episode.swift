@@ -7,17 +7,20 @@
 
 import Foundation
 import AVFoundation
+import UIKit
 
 class Episode {
     
     private var title: String
     private var audioUrl: URL
+    private var photoUrl: URL
     private var audioPath: URL
     private var description: String
     
-    init(title: String, audioUrl: URL, description: String, showTitle: String) {
+    init(title: String, audioUrl: URL, photoUrl: URL, description: String, showTitle: String) {
         self.title = title
         self.description = description
+        self.photoUrl = photoUrl
         self.audioUrl = audioUrl
         
         let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -92,4 +95,19 @@ class Episode {
         }
     }
     
+    private func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    }
+    
+    func getImage(callback: @escaping (UIImage) -> ()) {
+        print("Download Started")
+        getData(from: self.photoUrl) { data, response, error in
+            guard let data = data, error == nil else { return }
+            print(response?.suggestedFilename ?? self.photoUrl.lastPathComponent)
+            print("Download Finished")
+            DispatchQueue.main.async() {
+                callback(UIImage(data: data)!)
+            }
+        }
+    }
 }

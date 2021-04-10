@@ -11,11 +11,11 @@ import UIKit
 class Show {
     
     private var title: String
-    private var imageUrl: URL?
+    private var imageUrl: URL
     private var description: String
     private var episodes: [Episode] = []
     
-    init(title: String, description: String, imageUrl: URL?) {
+    init(title: String, description: String, imageUrl: URL) {
         self.title = title
         self.description = description
         self.imageUrl = imageUrl
@@ -37,18 +37,18 @@ class Show {
         return self.episodes[index]
     }
     
-    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+    private func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
         URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
     }
     
-    func downloadImage(from url: URL) {
+    func getImage(callback: @escaping (UIImage) -> ()) {
         print("Download Started")
-        getData(from: url) { data, response, error in
+        getData(from: self.imageUrl) { data, response, error in
             guard let data = data, error == nil else { return }
-            print(response?.suggestedFilename ?? url.lastPathComponent)
+            print(response?.suggestedFilename ?? self.imageUrl.lastPathComponent)
             print("Download Finished")
             DispatchQueue.main.async() {
-                // self.podcastImage.image = UIImage(data: data)
+                callback(UIImage(data: data)!)
             }
         }
     }
