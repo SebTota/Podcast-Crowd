@@ -55,7 +55,13 @@
                         <viewLayoutGuide key="safeArea" id="6qi-JX-Gtf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="1Ob-Ql-hTL"/>
+                    <navigationItem key="navigationItem" id="1Ob-Ql-hTL">
+                        <barButtonItem key="rightBarButtonItem" title="Player" id="qJo-93-2BL">
+                            <connections>
+                                <segue destination="BYZ-38-t0r" kind="show" id="f7k-ez-TLf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="showsTableView" destination="O6i-ZF-zOL" id="ZFJ-nT-2Rb"/>
                         <segue destination="wXo-ve-dIx" kind="show" identifier="ShowToEpisodeSegueIdentifier" id="Roo-j0-feE"/>
@@ -188,7 +194,13 @@
                         <viewLayoutGuide key="safeArea" id="zMP-gb-qdc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="BaY-V2-e2T"/>
+                    <navigationItem key="navigationItem" id="BaY-V2-e2T">
+                        <barButtonItem key="rightBarButtonItem" title="Player" id="KsN-hc-wcD">
+                            <connections>
+                                <segue destination="BYZ-38-t0r" kind="show" id="bEj-Jh-PsR"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="episodesTableView" destination="FoT-UD-8al" id="LQZ-4E-t9H"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="EpisodeToPlayerSegueIdentifier" id="V3O-gU-TTh"/>
@@ -199,6 +211,9 @@
             <point key="canvasLocation" x="1644.9275362318842" y="116.51785714285714"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="V3O-gU-TTh"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

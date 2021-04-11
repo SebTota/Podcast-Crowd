@@ -49,7 +49,7 @@ extension EpisodesViewController: UITableViewDelegate, UITableViewDataSource {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == episodeToPlayerSegueIdentifier {
             if let viewController = segue.destination as? AudioPlayerViewController {
-                viewController.episode = (sender as! Episode)
+                viewController.setNewEpisode(newEpisode: sender as! Episode)
             }
         }
     }

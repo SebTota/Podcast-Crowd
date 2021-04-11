@@ -8,6 +8,10 @@
 import UIKit
 import AVFoundation
 
+var audioPlayer: AVAudioPlayer?
+var episode: Episode!
+var isPlaying: Bool = false
+
 class AudioPlayerViewController: UIViewController {
 
     @IBOutlet weak var podcastImageView: UIImageView!
@@ -17,18 +21,35 @@ class AudioPlayerViewController: UIViewController {
     @IBOutlet weak var progressUISlider: UISlider!
     
     var timer: Timer?
-    var audioPlayer: AVAudioPlayer?
-    var episode: Episode!
     var isPlayingBeforeChange: Bool = false
-    var isPlaying: Bool = false
+    var isNewEpsiode: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        titleLabel.text = episode.getTitle()
-        loadingActivityIndicatorView.startAnimating()
-        loadAudio()
-        loadPhoto()
-        setProgressViewTimer()
+        if isNewEpsiode == true {
+            loadAudio()
+        }
+        if episode != nil {
+            titleLabel.text = episode.getTitle()
+            loadingActivityIndicatorView.startAnimating()
+            loadPhoto()
+            setProgressViewTimer()
+            self.loadingActivityIndicatorView.isHidden = true
+            self.enablePlayerButton()
+            
+            if isPlaying == true {
+                play()
+            }
+            
+        } else {
+            print("Epside is nil")
+        }
+        isNewEpsiode = false
+    }
+    
+    func setNewEpisode(newEpisode: Episode) {
+        isNewEpsiode = true
+        episode = newEpisode
     }
     
     /*
@@ -36,7 +57,7 @@ class AudioPlayerViewController: UIViewController {
      */
     private func enablePlayerButton() {
         playButton.isEnabled = true
-        if let audioPlayer = self.audioPlayer {
+        if let audioPlayer = audioPlayer {
             progressUISlider.maximumValue = Float(audioPlayer.duration)
         }
     }
@@ -45,17 +66,18 @@ class AudioPlayerViewController: UIViewController {
      * Load in the audio file for the chosen episode
      */
     private func loadAudio() {
-        episode.getEpisode { (audioPlayer: AVAudioPlayer?) in
-            if let audioPlayer = audioPlayer {
-                self.audioPlayer = audioPlayer
-                DispatchQueue.main.async {
-                    do  {
-                        try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default, options: [])
-                        self.loadingActivityIndicatorView.isHidden = true
-                        self.enablePlayerButton()
-                    } catch {
-                        print(error)
-                    }
+        episode.getEpisode { (newAudioPlayer: AVAudioPlayer?) in
+            audioPlayer = newAudioPlayer
+            DispatchQueue.main.async {
+                do  {
+                    let instance = AVAudioSession.sharedInstance()
+                    try instance.setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default, options: [])
+                    try instance.setActive(true, options: [])
+                    
+                    self.loadingActivityIndicatorView.isHidden = true
+                    self.enablePlayerButton()
+                } catch {
+                    print(error)
                 }
             }
         }
@@ -83,7 +105,7 @@ class AudioPlayerViewController: UIViewController {
      * Update the progress bar to the current percentage of the audio file listened to
      */
     @objc func updateAudioProgressBar() {
-        if let audioPlayer = self.audioPlayer {
+        if let audioPlayer = audioPlayer {
             progressUISlider.setValue(Float(audioPlayer.currentTime), animated: true)
         }
     }
@@ -92,10 +114,10 @@ class AudioPlayerViewController: UIViewController {
      * Perform actions for 'Play'
      */
     private func play() {
-        if let audioPlayer = self.audioPlayer {
+        if let audioPlayer = audioPlayer {
             audioPlayer.play()
             playButton.setTitle("Pause", for: .normal)
-            self.isPlaying = true
+            isPlaying = true
         }
     }
     
@@ -103,15 +125,15 @@ class AudioPlayerViewController: UIViewController {
      * Perform actions for 'Pause'
      */
     private func pause() {
-        if let audioPlayer = self.audioPlayer {
+        if let audioPlayer = audioPlayer {
             audioPlayer.pause()
             playButton.setTitle("Play", for: .normal)
-            self.isPlaying = false
+            isPlaying = false
         }
     }
     
     @IBAction func playButtonPressed(_ sender: Any) {
-        if self.isPlaying == false {
+        if isPlaying == false {
             play()
         } else {
             pause()
@@ -119,7 +141,7 @@ class AudioPlayerViewController: UIViewController {
     }
     @IBAction func progressBarTouch(_ sender: Any) {
         if let timer = self.timer {
-            self.isPlayingBeforeChange = self.isPlaying
+            self.isPlayingBeforeChange = isPlaying
             
             // Pause the audio if not already pause
             pause()
@@ -136,7 +158,7 @@ class AudioPlayerViewController: UIViewController {
     }
     
     @IBAction func progressBarChange(_ sender: Any) {
-        if let audioPlayer = self.audioPlayer {
+        if let audioPlayer = audioPlayer {
             audioPlayer.currentTime = TimeInterval(progressUISlider.value)
         }
     }
