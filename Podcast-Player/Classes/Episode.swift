@@ -14,7 +14,10 @@ class Episode {
     private var title: String
     private var audioUrl: URL
     private var photoUrl: URL
+    
     private var audioPath: URL
+    private var photoPath: URL
+    
     private var description: String
     
     init(title: String, audioUrl: URL, photoUrl: URL, description: String, showTitle: String) {
@@ -24,8 +27,8 @@ class Episode {
         self.audioUrl = audioUrl
         
         let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        // self.audioPath = documentsDirectoryURL.appendingPathComponent(showTitle)
         self.audioPath = documentsDirectoryURL.appendingPathComponent(audioUrl.lastPathComponent)
+        self.photoPath = documentsDirectoryURL.appendingPathComponent(photoUrl.lastPathComponent)
     }
     
     func getTitle() -> String {
@@ -34,36 +37,6 @@ class Episode {
     
     func getDescription() -> String {
         return self.description
-    }
-    
-    /*
-     * Download the audio file for this episode to local storage
-     */
-    private func downloadEpisode(callback: @escaping (Bool) -> ()) {
-        URLSession.shared.downloadTask(with: self.audioUrl) { location, response, error in
-            guard let location = location, error == nil else { return }
-            do {
-                print("Downloaded episode to local storage")
-                try FileManager.default.moveItem(at: location, to: self.audioPath)
-                callback(true)
-            } catch {
-                print("Error downloading episode")
-                print(error)
-                callback(false)
-            }
-        }.resume()
-    }
-    
-    /*
-     * Check if the audio file for this episode exists in local storage
-     * @param   Bool    true: file exists in local storage, false: file doesn't exist in local storage
-     */
-    private func checkIfEpisodeExists() -> Bool {
-        if FileManager.default.fileExists(atPath: audioPath.path) {
-            return true
-        } else {
-            return false
-        }
     }
     
     /*
@@ -82,10 +55,10 @@ class Episode {
      * Retrieve the audio for this episode
      */
     func getEpisode(callback: @escaping (AVAudioPlayer?) -> ()) {
-        if checkIfEpisodeExists() == true {
+        if LocalAndRemoteFileManager.checkIfFileExistsInLocalStorage(atPath: self.audioPath.path) == true {
             callback(self.getEpisodeFromLocalStorage())
         } else {
-            downloadEpisode { (success: Bool) in
+            LocalAndRemoteFileManager.downloadFileToLocalStorage(toPath: self.audioPath, url: self.audioUrl) { (success: Bool) in
                 if success == true {
                     callback(self.getEpisodeFromLocalStorage())
                 } else {
@@ -95,18 +68,18 @@ class Episode {
         }
     }
     
-    private func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
-    }
-    
     func getImage(callback: @escaping (UIImage) -> ()) {
-        print("Download Started")
-        getData(from: self.photoUrl) { data, response, error in
-            guard let data = data, error == nil else { return }
-            print(response?.suggestedFilename ?? self.photoUrl.lastPathComponent)
-            print("Download Finished")
-            DispatchQueue.main.async() {
-                callback(UIImage(data: data)!)
+        if LocalAndRemoteFileManager.checkIfFileExistsInLocalStorage(atPath: self.photoPath.path) {
+            callback(LocalAndRemoteFileManager.getUIImageFromLocalStorage(atPath: self.photoPath.path)!)
+        } else {
+            LocalAndRemoteFileManager.downloadFileToLocalStorage(toPath: self.photoPath, url: self.photoUrl) { (success: Bool) in
+                if success == true {
+                    print("Downloaded epsiode image to local storage")
+                    callback(LocalAndRemoteFileManager.getUIImageFromLocalStorage(atPath: self.photoPath.path)!)
+                } else {
+                    print("Couldn't download episode image to local storage")
+                    callback(UIImage())
+                }
             }
         }
     }
