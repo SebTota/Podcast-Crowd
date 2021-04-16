@@ -16,7 +16,7 @@ class AudioPlayerViewController: UIViewController {
 
     @IBOutlet weak var podcastImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
-    let playButtonConf = UIImage.SymbolConfiguration(scale: .large)
+    let playButtonConf = UIImage.SymbolConfiguration(pointSize: 40.0)
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var loadingActivityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var progressUISlider: UISlider!
@@ -133,6 +133,15 @@ class AudioPlayerViewController: UIViewController {
         }
     }
     
+    /*
+     * Move audio forward 30 seconds
+     */
+    private func forwardThirty() {
+        if let audioPlayer = audioPlayer {
+            audioPlayer.currentTime = audioPlayer.currentTime + 30
+        }
+    }
+    
     @IBAction func playButtonPressed(_ sender: Any) {
         if isPlaying == false {
             play()
@@ -163,4 +172,10 @@ class AudioPlayerViewController: UIViewController {
             audioPlayer.currentTime = TimeInterval(progressUISlider.value)
         }
     }
+    
+    @IBAction func forwardThirtyPressed(_ sender: UIButton) {
+        forwardThirty()
+    }
+    
+    
 }
