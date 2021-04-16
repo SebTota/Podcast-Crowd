@@ -158,6 +158,9 @@
                                     <imageReference key="image" image="gobackward.15" catalog="system" symbolScale="large"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30" scale="default" weight="semibold"/>
                                 </state>
+                                <connections>
+                                    <action selector="reverseFifteenPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YPo-XZ-luL"/>
+                                </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="2o7-zH-OM8">
                                 <rect key="frame" x="172" y="413" width="70" height="70"/>

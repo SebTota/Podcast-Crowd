@@ -142,6 +142,15 @@ class AudioPlayerViewController: UIViewController {
         }
     }
     
+    /*
+     * Reverse audio 15 second back in audio player
+     */
+    private func reverseFifteen() {
+        if let audioPlayer = audioPlayer {
+            audioPlayer.currentTime = audioPlayer.currentTime - 15
+        }
+    }
+    
     @IBAction func playButtonPressed(_ sender: Any) {
         if isPlaying == false {
             play()
@@ -177,5 +186,8 @@ class AudioPlayerViewController: UIViewController {
         forwardThirty()
     }
     
+    @IBAction func reverseFifteenPressed(_ sender: Any) {
+        reverseFifteen()
+    }
     
 }
