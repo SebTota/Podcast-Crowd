@@ -21,6 +21,9 @@ class AudioPlayerViewController: UIViewController {
     @IBOutlet weak var loadingActivityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var progressUISlider: UISlider!
     
+    @IBOutlet weak var timeElapsedLabel: UILabel!
+    @IBOutlet weak var timeRemainingLabel: UILabel!
+    
     var timer: Timer?
     var isPlayingBeforeChange: Bool = false
     var isNewEpsiode: Bool = false
@@ -96,10 +99,29 @@ class AudioPlayerViewController: UIViewController {
     }
     
     /*
+     * Format an int of seconds to a display string
+     * @param   Int     The seconds representation of time
+     * @return  String  The display view of the time specified
+     */
+    private func secondsToTextDisplay(seconds: Int) -> String {
+        var time = seconds
+        let hours = seconds / 3600
+        time -= hours * 3600
+        let minutes = time / 60
+        time -= minutes * 60
+        
+        if hours > 0 {
+            return String(format: "%0.2d:%0.2d:%0.2d", hours, minutes, time)
+        } else {
+            return String(format: "%0.2d:%0.2d", minutes, time)
+        }
+    }
+    
+    /*
      * Set a timer to update the progress view slider
      */
     private func setProgressViewTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(AudioPlayerViewController.updateAudioProgressBar), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(AudioPlayerViewController.updateAudioProgressBar), userInfo: nil, repeats: true)
     }
     
     /*
@@ -108,6 +130,8 @@ class AudioPlayerViewController: UIViewController {
     @objc func updateAudioProgressBar() {
         if let audioPlayer = audioPlayer {
             progressUISlider.setValue(Float(audioPlayer.currentTime), animated: true)
+            timeElapsedLabel.text = secondsToTextDisplay(seconds: Int(audioPlayer.currentTime))
+            timeRemainingLabel.text = "-" + secondsToTextDisplay(seconds: Int(audioPlayer.duration - audioPlayer.currentTime))
         }
     }
     
@@ -139,6 +163,7 @@ class AudioPlayerViewController: UIViewController {
     private func forwardThirty() {
         if let audioPlayer = audioPlayer {
             audioPlayer.currentTime = audioPlayer.currentTime + 30
+            updateAudioProgressBar()
         }
     }
     
@@ -148,6 +173,7 @@ class AudioPlayerViewController: UIViewController {
     private func reverseFifteen() {
         if let audioPlayer = audioPlayer {
             audioPlayer.currentTime = audioPlayer.currentTime - 15
+            updateAudioProgressBar()
         }
     }
     
@@ -169,6 +195,7 @@ class AudioPlayerViewController: UIViewController {
     }
     @IBAction func progressBarTouchUp(_ sender: Any) {
         setProgressViewTimer()
+        updateAudioProgressBar()
         
         // Resume audio playing if the audio was playing before seek change
         if self.isPlayingBeforeChange == true {
