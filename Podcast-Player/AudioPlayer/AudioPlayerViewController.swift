@@ -16,6 +16,7 @@ class AudioPlayerViewController: UIViewController {
 
     @IBOutlet weak var podcastImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
+    let playButtonConf = UIImage.SymbolConfiguration(scale: .large)
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var loadingActivityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var progressUISlider: UISlider!
@@ -116,7 +117,7 @@ class AudioPlayerViewController: UIViewController {
     private func play() {
         if let audioPlayer = audioPlayer {
             audioPlayer.play()
-            playButton.setTitle("Pause", for: .normal)
+            playButton.setImage(UIImage(systemName: "pause.fill", withConfiguration: playButtonConf), for: .normal)
             isPlaying = true
         }
     }
@@ -127,7 +128,7 @@ class AudioPlayerViewController: UIViewController {
     private func pause() {
         if let audioPlayer = audioPlayer {
             audioPlayer.pause()
-            playButton.setTitle("Play", for: .normal)
+            playButton.setImage(UIImage(systemName: "play.fill", withConfiguration: playButtonConf), for: .normal)
             isPlaying = false
         }
     }
