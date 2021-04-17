@@ -51,7 +51,7 @@ class RssFeedParser {
     }
     
     private func encodeString(str: String) -> String? {
-        return str.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+        return str.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)?.replacingOccurrences(of: "%", with: "--|--")
     }
     
     private func parseEpisodes() {

@@ -11,6 +11,7 @@ import AVFoundation
 var audioPlayer: AVAudioPlayer?
 var episode: Episode!
 var isPlaying: Bool = false
+var adStartTime: Double?
 
 class AudioPlayerViewController: UIViewController {
 
@@ -26,6 +27,8 @@ class AudioPlayerViewController: UIViewController {
     
     // Buttons
     @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var adStartButton: UIButton!
+    @IBOutlet weak var adStopButton: UIButton!
     
     
     // Labels
@@ -226,6 +229,22 @@ class AudioPlayerViewController: UIViewController {
     
     @IBAction func reverseFifteenPressed(_ sender: Any) {
         reverseFifteen()
+    }
+    
+    @IBAction func adStartPressed(_ sender: Any) {
+        if let audioPlayer = audioPlayer {
+            adStartTime = audioPlayer.currentTime
+            adStopButton.isEnabled = true
+        }
+    }
+    
+    @IBAction func adStopPressed(_ sender: Any) {
+        if let start = adStartTime, let audioPlayer = audioPlayer {
+            let end = audioPlayer.currentTime
+            episode.addAdInterval(start: Int(start), end: Int(end))
+            adStartTime = nil
+            adStopButton.isEnabled = false
+        }
     }
     
 }

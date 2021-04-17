@@ -102,13 +102,16 @@
                                     <action selector="progressBarTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4QH-9V-rKH"/>
                                 </connections>
                             </slider>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I91-Qc-5EM">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I91-Qc-5EM">
                                 <rect key="frame" x="307" y="770" width="86" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Ad Stop">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="adStopPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TNb-wC-ehv"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wNp-2Y-592">
                                 <rect key="frame" x="20" y="770" width="88" height="42"/>
@@ -117,6 +120,9 @@
                                 <state key="normal" title="Ad Start">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="adStartPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="F9Z-Vg-pqb"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0w9-7a-Qcd">
                                 <rect key="frame" x="20" y="625" width="109" height="21"/>
@@ -189,6 +195,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="Vqm-9f-Lp7"/>
                     <connections>
+                        <outlet property="adStartButton" destination="wNp-2Y-592" id="YZO-G0-aA0"/>
+                        <outlet property="adStopButton" destination="I91-Qc-5EM" id="gqP-Np-NBV"/>
                         <outlet property="backFifteenButton" destination="eF2-Uc-waX" id="EhN-lO-KKA"/>
                         <outlet property="forwardThirtyButton" destination="uBu-Dr-U4f" id="uxM-40-7N6"/>
                         <outlet property="loadingActivityIndicatorView" destination="2o7-zH-OM8" id="X99-Zd-SkF"/>

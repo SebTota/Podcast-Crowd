@@ -8,23 +8,28 @@
 import Foundation
 import AVFoundation
 import UIKit
+import Firebase
 
 class Episode {
     
     private var title: String
     private var audioUrl: URL
     private var photoUrl: URL
-    
     private var audioPath: URL
     private var photoPath: URL
-    
+    private var showId: String
     private var description: String
+    
+    private var db: DocumentReference
     
     init(title: String, audioUrl: URL, photoUrl: URL, description: String, showId: String) {
         self.title = title
         self.description = description
         self.photoUrl = photoUrl
         self.audioUrl = audioUrl
+        self.showId = showId
+        
+        self.db = Firestore.firestore().collection("podcasts").document(showId).collection("episodes").document(audioUrl.lastPathComponent)
         
         let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let baseDir = documentsDirectoryURL.appendingPathComponent(showId)
@@ -71,6 +76,9 @@ class Episode {
         }
     }
     
+    /*
+     * Retrieve the image for this episode
+     */
     func getImage(callback: @escaping (UIImage) -> ()) {
         autoreleasepool {
             if LocalAndRemoteFileManager.checkIfFileExistsInLocalStorage(atPath: self.photoPath.path) {
@@ -85,6 +93,21 @@ class Episode {
                         callback(UIImage())
                     }
                 }
+            }
+        }
+    }
+    
+    /*
+     * Add a new ad interval
+     */
+    func addAdInterval(start: Int, end: Int) {
+        
+        db.setData(["ads": FieldValue.arrayUnion([start, end])], merge: true) { (error: Error?) in
+            if let e = error {
+                print("Error adding new ad interval to database")
+                print(e)
+            } else {
+                print("Added ad interval to database")
             }
         }
     }
