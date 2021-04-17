@@ -17,10 +17,18 @@ class AudioPlayerViewController: UIViewController {
     @IBOutlet weak var podcastImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     let playButtonConf = UIImage.SymbolConfiguration(pointSize: 40.0)
-    @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var loadingActivityIndicatorView: UIActivityIndicatorView!
-    @IBOutlet weak var progressUISlider: UISlider!
     
+    // Progress Slider
+    @IBOutlet weak var progressUISlider: UISlider!
+    @IBOutlet weak var backFifteenButton: UIButton!
+    @IBOutlet weak var forwardThirtyButton: UIButton!
+    
+    // Buttons
+    @IBOutlet weak var playButton: UIButton!
+    
+    
+    // Labels
     @IBOutlet weak var timeElapsedLabel: UILabel!
     @IBOutlet weak var timeRemainingLabel: UILabel!
     
@@ -35,11 +43,12 @@ class AudioPlayerViewController: UIViewController {
         }
         if episode != nil {
             titleLabel.text = episode.getTitle()
+            updateAudioProgressBar()
             loadingActivityIndicatorView.startAnimating()
             loadPhoto()
             setProgressViewTimer()
             self.loadingActivityIndicatorView.isHidden = true
-            self.enablePlayerButton()
+            self.enablePlayerButtons()
             
             if isPlaying == true {
                 play()
@@ -57,10 +66,12 @@ class AudioPlayerViewController: UIViewController {
     }
     
     /*
-     * Enable the play/pause button
+     * Enable the audio player buttons
      */
-    private func enablePlayerButton() {
+    private func enablePlayerButtons() {
         playButton.isEnabled = true
+        backFifteenButton.isEnabled = true
+        forwardThirtyButton.isEnabled = true
         if let audioPlayer = audioPlayer {
             progressUISlider.maximumValue = Float(audioPlayer.duration)
         }
@@ -79,7 +90,7 @@ class AudioPlayerViewController: UIViewController {
                     try instance.setActive(true, options: [])
                     
                     self.loadingActivityIndicatorView.isHidden = true
-                    self.enablePlayerButton()
+                    self.enablePlayerButtons()
                 } catch {
                     print(error)
                 }

@@ -20,15 +20,16 @@ class Episode {
     
     private var description: String
     
-    init(title: String, audioUrl: URL, photoUrl: URL, description: String, showTitle: String) {
+    init(title: String, audioUrl: URL, photoUrl: URL, description: String, showId: String) {
         self.title = title
         self.description = description
         self.photoUrl = photoUrl
         self.audioUrl = audioUrl
         
         let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        self.audioPath = documentsDirectoryURL.appendingPathComponent(audioUrl.lastPathComponent)
-        self.photoPath = documentsDirectoryURL.appendingPathComponent(photoUrl.lastPathComponent)
+        let baseDir = documentsDirectoryURL.appendingPathComponent(showId)
+        self.audioPath = baseDir.appendingPathComponent(audioUrl.lastPathComponent)
+        self.photoPath = baseDir.appendingPathComponent(photoUrl.lastPathComponent)
     }
     
     func getTitle() -> String {

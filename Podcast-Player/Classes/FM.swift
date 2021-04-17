@@ -39,6 +39,14 @@ class LocalAndRemoteFileManager {
      * @param   Callback    Callback, passing a bool indicating success or failure of download/save
      */
     static func downloadFileToLocalStorage(toPath: URL, url: URL, callback: @escaping (Bool) -> ()) {
+        do {
+            try FileManager.default.createDirectory(at: toPath.deletingLastPathComponent(), withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            print("Error creating direcotry for downloaded item")
+            print(error)
+            callback(false)
+        }
+        
         URLSession.shared.downloadTask(with: url) { location, response, error in
             guard let location = location, error == nil else { return }
             do {

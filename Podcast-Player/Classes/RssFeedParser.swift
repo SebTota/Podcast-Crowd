@@ -50,6 +50,10 @@ class RssFeedParser {
         }
     }
     
+    private func encodeString(str: String) -> String? {
+        return str.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+    }
+    
     private func parseEpisodes() {
         if let rssFeed = self.rssFeed, let show = self.show, let imageUrl = self.imageUrl {
             if let items = rssFeed.items {
@@ -58,7 +62,7 @@ class RssFeedParser {
                 
                 for item in items {
                     if let t = item.title, let d = item.description, let audioUrl = item.enclosure?.attributes?.url! {
-                        episodes.append(Episode(title: t, audioUrl: URL(string: audioUrl)!, photoUrl: imageUrl, description: d, showTitle: show.getTitle()))
+                        episodes.append(Episode(title: t, audioUrl: URL(string: audioUrl)!, photoUrl: imageUrl, description: d, showId: show.getTitle().addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!))
                     }
                 }
                 
