@@ -12,9 +12,9 @@
         <!--View Controller-->
         <scene sceneID="ndE-VJ-DiB">
             <objects>
-                <viewController id="o25-Be-QNM" customClass="ViewController" customModule="Podcast_Player" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="o25-Be-QNM" customClass="ViewController" customModule="Podcast_Player" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="U7k-ZI-sq4">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="O6i-ZF-zOL">
@@ -80,7 +80,7 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="AudioPlayerViewController" customModule="Podcast_Player" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P3F-qk-P1N">
@@ -230,21 +230,21 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
-                        <segue destination="thg-yF-30D" kind="show" id="bVL-pT-zSF"/>
+                        <segue destination="thg-yF-30D" kind="presentation" identifier="LoginViewSegueIdentifier" modalPresentationStyle="fullScreen" id="gvB-0K-oYm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bzu-3w-E4B" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1062.3188405797102" y="116.51785714285714"/>
+            <point key="canvasLocation" x="-1183" y="117"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Main Navigation Controller-->
         <scene sceneID="J0m-Wz-aVn">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="thg-yF-30D" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="thg-yF-30D" customClass="MainNavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="2UD-Yr-NOE"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Rcc-lP-2eT">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -254,14 +254,14 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x1i-MH-aK8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-242.0289855072464" y="116.51785714285714"/>
+            <point key="canvasLocation" x="-254" y="117"/>
         </scene>
         <!--Episodes View Controller-->
         <scene sceneID="Haq-P9-5hP">
             <objects>
                 <viewController id="wXo-ve-dIx" customClass="EpisodesViewController" customModule="Podcast_Player" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4mf-EV-Koo">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FoT-UD-8al">
@@ -323,7 +323,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="V3O-gU-TTh"/>
+        <segue reference="f7k-ez-TLf"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="gobackward.15" catalog="system" width="121" height="128"/>
