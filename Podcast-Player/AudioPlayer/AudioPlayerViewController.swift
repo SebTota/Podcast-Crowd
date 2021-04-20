@@ -42,31 +42,43 @@ class AudioPlayerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadingActivityIndicatorView.startAnimating()
         
-        episode.getAdIntervals { (adIntervals: [[Int]]) in
-            self.adIntervals = adIntervals
-        }
-        
-        if isNewEpsiode == true {
-            loadAudio()
-        }
         if episode != nil {
-            titleLabel.text = episode.getTitle()
-            updateAudioProgressBar()
-            loadingActivityIndicatorView.startAnimating()
-            loadPhoto()
-            setProgressViewTimer()
-            self.loadingActivityIndicatorView.isHidden = true
-            self.enablePlayerButtons()
-            
-            if isPlaying == true {
-                play()
+            episode.getAdIntervals { (adIntervals: [[Int]]) in
+                self.adIntervals = adIntervals
             }
             
-        } else {
-            print("Epside is nil")
+            if isNewEpsiode == true {
+                viewDidLoadNewSong()
+            } else {
+                viewDidLoadContinuePlaying()
+            }
         }
         isNewEpsiode = false
+    }
+    
+    func viewDidLoadNewSong() {
+        titleLabel.text = episode.getTitle()
+        loadPhoto()
+        setProgressViewTimer()
+        pause()
+        loadAudio()
+        updateAudioProgressBar()
+        self.enablePlayerButtons()
+        self.loadingActivityIndicatorView.isHidden = true
+    }
+    
+    func viewDidLoadContinuePlaying() {
+        titleLabel.text = episode.getTitle()
+        loadPhoto()
+        setProgressViewTimer()
+        self.enablePlayerButtons()
+        self.loadingActivityIndicatorView.isHidden = true
+        
+        if isPlaying == true {
+            play()
+        }
     }
     
     func setNewEpisode(newEpisode: Episode) {
@@ -135,6 +147,15 @@ class AudioPlayerViewController: UIViewController {
         } else {
             return String(format: "%0.2d:%0.2d", minutes, time)
         }
+    }
+    
+    /*
+     * Reset the time and progress bar to 0
+     */
+    private func resetTimeAndProgressBar() {
+        progressUISlider.setValue(0.0, animated: true)
+        timeElapsedLabel.text = secondsToTextDisplay(seconds: 0)
+        timeRemainingLabel.text = "-" + secondsToTextDisplay(seconds: 0)
     }
     
     /*
