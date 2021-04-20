@@ -101,13 +101,40 @@ class Episode {
      * Add a new ad interval
      */
     func addAdInterval(start: Int, end: Int) {
-        
-        db.setData(["ads": FieldValue.arrayUnion([start, end])], merge: true) { (error: Error?) in
+        let addObj: [String: Int] = ["start": start, "end":end]
+        db.updateData(["ads": FieldValue.arrayUnion([addObj])]) { (error: Error?) in
             if let e = error {
                 print("Error adding new ad interval to database")
                 print(e)
             } else {
                 print("Added ad interval to database")
+            }
+        }
+    }
+    
+    /*
+     * Get all ad intervals for this episode
+     */
+    func getAdIntervals(callback: @escaping ([[Int]]) -> ()) {
+        db.getDocument { (document: DocumentSnapshot?, error: Error?) in
+            if let e = error {
+                print("Error retreiving ad intervals for episode")
+                print(e)
+                callback([])
+            } else {
+                if let document = document, document.exists, let dbArr = document.get("ads") as? [[String: Int]] {
+                    var adIntervals: [[Int]] = []
+                    for adInterval in dbArr {
+                        if let s = adInterval["start"], let e = adInterval["end"] {
+                            adIntervals.append([s, e])
+                        }
+                    }
+                    adIntervals.sort { ($0[0] as Int) < ($1[0] as Int) }
+                    callback(adIntervals)
+                } else {
+                    print("Document does not exist")
+                    callback([])
+                }
             }
         }
     }

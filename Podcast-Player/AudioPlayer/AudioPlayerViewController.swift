@@ -41,6 +41,11 @@ class AudioPlayerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        episode.getAdIntervals { (adIntervals: [[Int]]) in
+            print(adIntervals)
+        }
+        
         if isNewEpsiode == true {
             loadAudio()
         }
@@ -241,6 +246,11 @@ class AudioPlayerViewController: UIViewController {
     @IBAction func adStopPressed(_ sender: Any) {
         if let start = adStartTime, let audioPlayer = audioPlayer {
             let end = audioPlayer.currentTime
+            
+            if start >= end {
+                return
+            }
+            
             episode.addAdInterval(start: Int(start), end: Int(end))
             adStartTime = nil
             adStopButton.isEnabled = false
