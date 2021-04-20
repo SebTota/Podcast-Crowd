@@ -38,12 +38,13 @@ class AudioPlayerViewController: UIViewController {
     var timer: Timer?
     var isPlayingBeforeChange: Bool = false
     var isNewEpsiode: Bool = false
+    var adIntervals: [[Int]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         episode.getAdIntervals { (adIntervals: [[Int]]) in
-            print(adIntervals)
+            self.adIntervals = adIntervals
         }
         
         if isNewEpsiode == true {
@@ -148,6 +149,16 @@ class AudioPlayerViewController: UIViewController {
      */
     @objc func updateAudioProgressBar() {
         if let audioPlayer = audioPlayer {
+            let currentTime = Int(audioPlayer.currentTime)
+            for i in adIntervals {
+                if i[0] <= currentTime {
+                    if i[1] > currentTime {
+                        audioPlayer.currentTime = Double(i[1])
+                        break
+                    }
+                }
+            }
+            
             progressUISlider.setValue(Float(audioPlayer.currentTime), animated: true)
             timeElapsedLabel.text = secondsToTextDisplay(seconds: Int(audioPlayer.currentTime))
             timeRemainingLabel.text = "-" + secondsToTextDisplay(seconds: Int(audioPlayer.duration - audioPlayer.currentTime))
