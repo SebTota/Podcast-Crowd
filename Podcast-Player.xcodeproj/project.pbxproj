@@ -18,6 +18,7 @@
 		4DFB23DC26210C6700D0A5B5 /* Show.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFB23DB26210C6600D0A5B5 /* Show.swift */; };
 		4DFB23E226210E8500D0A5B5 /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DFB23E126210E8500D0A5B5 /* Episode.swift */; };
 		D93F8174262B4855002F96F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D93F8173262B4855002F96F7 /* GoogleService-Info.plist */; };
+		D95D5AFC262F1A8E004FB92C /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D5AFB262F1A8E004FB92C /* SignInViewController.swift */; };
 		D985B14E262256D300CF447C /* FM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D985B14D262256D300CF447C /* FM.swift */; };
 		D9F32CED2621E62200AED613 /* RssFeedParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F32CEC2621E62200AED613 /* RssFeedParser.swift */; };
 		D9F32CF82621F81E00AED613 /* EpisodesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9F32CF72621F81E00AED613 /* EpisodesViewController.swift */; };
@@ -41,6 +42,7 @@
 		61A4C6A64C05144FC219DED3 /* Pods_Podcast_Player.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Podcast_Player.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE6E228D79171408A9678A90 /* Pods-Podcast-Player.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Podcast-Player.debug.xcconfig"; path = "Target Support Files/Pods-Podcast-Player/Pods-Podcast-Player.debug.xcconfig"; sourceTree = "<group>"; };
 		D93F8173262B4855002F96F7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		D95D5AFB262F1A8E004FB92C /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		D985B14D262256D300CF447C /* FM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FM.swift; sourceTree = "<group>"; };
 		D9F32CEC2621E62200AED613 /* RssFeedParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssFeedParser.swift; sourceTree = "<group>"; };
 		D9F32CF72621F81E00AED613 /* EpisodesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesViewController.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 		4DFB23BC2620C6DE00D0A5B5 /* Podcast-Player */ = {
 			isa = PBXGroup;
 			children = (
+				D95D5AFA262F19F5004FB92C /* SignInView */,
 				D93F8173262B4855002F96F7 /* GoogleService-Info.plist */,
 				D9F32CFD262200CE00AED613 /* AudioPlayer */,
 				D9F32CF52621F7DD00AED613 /* Classes */,
@@ -111,6 +114,14 @@
 				61A4C6A64C05144FC219DED3 /* Pods_Podcast_Player.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D95D5AFA262F19F5004FB92C /* SignInView */ = {
+			isa = PBXGroup;
+			children = (
+				D95D5AFB262F1A8E004FB92C /* SignInViewController.swift */,
+			);
+			path = SignInView;
 			sourceTree = "<group>";
 		};
 		D9F32CF32621F7C100AED613 /* EpisodeView */ = {
@@ -162,6 +173,7 @@
 				4DFB23B72620C6DE00D0A5B5 /* Frameworks */,
 				4DFB23B82620C6DE00D0A5B5 /* Resources */,
 				0D4694ECD924AF51125000EA /* [CP] Embed Pods Frameworks */,
+				8FF02C8D0DDD715A355E72E9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -236,6 +248,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Podcast-Player/Pods-Podcast-Player-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		8FF02C8D0DDD715A355E72E9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Podcast-Player/Pods-Podcast-Player-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Podcast-Player/Pods-Podcast-Player-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Podcast-Player/Pods-Podcast-Player-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		BB497BB2BADACBDB475B5351 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -273,6 +302,7 @@
 				4DFB23DC26210C6700D0A5B5 /* Show.swift in Sources */,
 				4DFB23E226210E8500D0A5B5 /* Episode.swift in Sources */,
 				D985B14E262256D300CF447C /* FM.swift in Sources */,
+				D95D5AFC262F1A8E004FB92C /* SignInViewController.swift in Sources */,
 				D9F32CED2621E62200AED613 /* RssFeedParser.swift in Sources */,
 				D9F32CFB2621F89F00AED613 /* EpisodesTableViewCell.swift in Sources */,
 				4DFB23C02620C6DE00D0A5B5 /* SceneDelegate.swift in Sources */,
@@ -430,7 +460,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.sebtota.www.Podcast-Player";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebtota.podcastPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -450,7 +480,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.sebtota.www.Podcast-Player";
+				PRODUCT_BUNDLE_IDENTIFIER = com.sebtota.podcastPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

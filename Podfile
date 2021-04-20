@@ -6,4 +6,7 @@ project 'Podcast-Player.xcodeproj'
 target 'Podcast-Player' do
   pod 'FeedKit', '~> 9.0'
   pod 'Firebase/Firestore'
+  pod 'FirebaseUI'
+  pod 'Firebase/Auth'
+  pod 'GoogleSignIn'
 end
