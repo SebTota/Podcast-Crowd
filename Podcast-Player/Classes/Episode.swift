@@ -102,7 +102,7 @@ class Episode {
      */
     func addAdInterval(start: Int, end: Int) {
         let addObj: [String: Int] = ["start": start, "end":end]
-        db.updateData(["ads": FieldValue.arrayUnion([addObj])]) { (error: Error?) in
+        db.setData(["ads": FieldValue.arrayUnion([addObj])], merge: true) { (error: Error?) in
             if let e = error {
                 print("Error adding new ad interval to database")
                 print(e)

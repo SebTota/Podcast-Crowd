@@ -42,6 +42,7 @@ class AudioPlayerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        enableAdminFeatures()
         loadingActivityIndicatorView.startAnimating()
         
         if episode != nil {
@@ -59,6 +60,7 @@ class AudioPlayerViewController: UIViewController {
     }
     
     func viewDidLoadNewSong() {
+        resetTimeAndProgressBar()
         titleLabel.text = episode.getTitle()
         loadPhoto()
         setProgressViewTimer()
@@ -82,6 +84,9 @@ class AudioPlayerViewController: UIViewController {
     }
     
     func setNewEpisode(newEpisode: Episode) {
+        if episode != nil && episode!.getTitle() == newEpisode.getTitle() {
+            return
+        }
         isNewEpsiode = true
         episode = newEpisode
     }
@@ -128,6 +133,22 @@ class AudioPlayerViewController: UIViewController {
                 self.podcastImageView.image = image
             }
         }
+    }
+    
+    /*
+     * Display ad skipping admin buttons if user is admin
+     */
+    private func enableAdminFeatures() {
+        User.userIsAdmin(callback: { [self] (admin: Bool) in
+            if admin == true {
+                print("User is admin")
+                adStartButton.isHidden = false
+                adStartButton.isEnabled = true
+                adStopButton.isHidden = false
+            } else {
+                print("User is not admin")
+            }
+        })
     }
     
     /*
@@ -245,6 +266,10 @@ class AudioPlayerViewController: UIViewController {
         }
     }
     @IBAction func progressBarTouchUp(_ sender: Any) {
+        if let audioPlayer = audioPlayer {
+            audioPlayer.currentTime = TimeInterval(progressUISlider.value)
+        }
+        
         setProgressViewTimer()
         updateAudioProgressBar()
         
@@ -256,7 +281,8 @@ class AudioPlayerViewController: UIViewController {
     
     @IBAction func progressBarChange(_ sender: Any) {
         if let audioPlayer = audioPlayer {
-            audioPlayer.currentTime = TimeInterval(progressUISlider.value)
+            timeElapsedLabel.text = secondsToTextDisplay(seconds: Int(progressUISlider.value))
+            timeRemainingLabel.text = "-" + secondsToTextDisplay(seconds: Int(audioPlayer.duration) - Int(progressUISlider.value))
         }
     }
     
