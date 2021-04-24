@@ -11,14 +11,25 @@ import UIKit
 class Show {
     
     private var title: String
-    private var imageUrl: URL
+    private var showId: String
+    private var photoUrl: URL
+    private var photoPath: URL
     private var description: String
     private var episodes: [Episode] = []
     
-    init(title: String, description: String, imageUrl: URL) {
+    init(title: String, description: String, imageUrl: URL, showId: String) {
         self.title = title
         self.description = description
-        self.imageUrl = imageUrl
+        self.photoUrl = imageUrl
+        self.showId = showId
+        
+        let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let baseDir = documentsDirectoryURL.appendingPathComponent(showId)
+        self.photoPath = baseDir.appendingPathComponent(photoUrl.lastPathComponent)
+    }
+    
+    func getShowId() -> String {
+        return showId
     }
     
     func getTitle() -> String {
@@ -41,14 +52,23 @@ class Show {
         URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
     }
     
+    /*
+     * Retrieve the image for this episode
+     */
     func getImage(callback: @escaping (UIImage) -> ()) {
-        print("Download Started")
-        getData(from: self.imageUrl) { data, response, error in
-            guard let data = data, error == nil else { return }
-            print(response?.suggestedFilename ?? self.imageUrl.lastPathComponent)
-            print("Download Finished")
-            DispatchQueue.main.async() {
-                callback(UIImage(data: data)!)
+        autoreleasepool {
+            if LocalAndRemoteFileManager.checkIfFileExistsInLocalStorage(atPath: self.photoPath.path) {
+                callback(LocalAndRemoteFileManager.getUIImageFromLocalStorage(atPath: self.photoPath.path)!)
+            } else {
+                LocalAndRemoteFileManager.downloadFileToLocalStorage(toPath: self.photoPath, url: self.photoUrl) { (success: Bool) in
+                    if success == true {
+                        print("Downloaded epsiode image to local storage")
+                        callback(LocalAndRemoteFileManager.getUIImageFromLocalStorage(atPath: self.photoPath.path)!)
+                    } else {
+                        print("Couldn't download episode image to local storage")
+                        callback(UIImage())
+                    }
+                }
             }
         }
     }

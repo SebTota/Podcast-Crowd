@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     }
     
     private func initShowsTableView() {
-        showsTableView.rowHeight = 80.0
+        showsTableView.rowHeight = 100.0
         showsTableView.delegate = self
         showsTableView.dataSource = self
     }
@@ -60,10 +60,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
 
         let show = shows[indexPath.item]
-        // row.titleLabel.text = show.getTitle()
-
         row.title.text = show.getTitle()
         row.descriptionLabel.text = show.getDescription()
+        show.getImage { (image: UIImage) in
+            DispatchQueue.main.async {
+                row.showImage.image = image
+            }
+        }
         return row
     }
     

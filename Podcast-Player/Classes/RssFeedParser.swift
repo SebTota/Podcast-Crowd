@@ -44,7 +44,7 @@ class RssFeedParser {
             if let t = rssFeed.title, let d = rssFeed.description, let imageUrl = rssFeed.image?.url {
                 if let imageUrl = URL(string: imageUrl) {
                     self.imageUrl = imageUrl
-                    self.show = Show(title: t, description: d, imageUrl: imageUrl)
+                    self.show = Show(title: t, description: d, imageUrl: imageUrl, showId: t.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!)
                 }
             }
         }
@@ -62,7 +62,7 @@ class RssFeedParser {
                 
                 for item in items {
                     if let t = item.title, let d = item.description, let audioUrl = item.enclosure?.attributes?.url! {
-                        episodes.append(Episode(title: t, audioUrl: URL(string: audioUrl)!, photoUrl: imageUrl, description: d, showId: show.getTitle().addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!))
+                        episodes.append(Episode(title: t, audioUrl: URL(string: audioUrl)!, photoUrl: imageUrl, description: d, showId: show.getShowId()))
                     }
                 }
                 
