@@ -39,6 +39,9 @@ class LocalAndRemoteFileManager {
      * @param   Callback    Callback, passing a bool indicating success or failure of download/save
      */
     static func downloadFileToLocalStorage(toPath: URL, url: URL, callback: @escaping (Bool) -> ()) {
+        print("Downloading file to local storage")
+        print(toPath)
+        print(toPath.deletingLastPathComponent())
         do {
             try FileManager.default.createDirectory(at: toPath.deletingLastPathComponent(), withIntermediateDirectories: true, attributes: nil)
         } catch {

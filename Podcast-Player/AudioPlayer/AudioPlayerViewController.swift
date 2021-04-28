@@ -51,6 +51,7 @@ class AudioPlayerViewController: UIViewController {
             }
             
             if isNewEpsiode == true {
+                print("New podcast playing")
                 viewDidLoadNewSong()
             } else {
                 viewDidLoadContinuePlaying()

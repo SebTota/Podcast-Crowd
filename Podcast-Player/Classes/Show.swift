@@ -8,8 +8,9 @@
 import Foundation
 import UIKit
 
+var getImageSemaphore: DispatchSemaphore = DispatchSemaphore(value: 1)
+
 class Show {
-    
     private var title: String
     private var showId: String
     private var photoUrl: URL
@@ -26,6 +27,7 @@ class Show {
         let documentsDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         let baseDir = documentsDirectoryURL.appendingPathComponent(showId)
         self.photoPath = baseDir.appendingPathComponent(photoUrl.lastPathComponent)
+        self.getImage { (image: UIImage) in }
     }
     
     func getShowId() -> String {
@@ -56,18 +58,19 @@ class Show {
      * Retrieve the image for this episode
      */
     func getImage(callback: @escaping (UIImage) -> ()) {
-        autoreleasepool {
-            if LocalAndRemoteFileManager.checkIfFileExistsInLocalStorage(atPath: self.photoPath.path) {
-                callback(LocalAndRemoteFileManager.getUIImageFromLocalStorage(atPath: self.photoPath.path)!)
-            } else {
-                LocalAndRemoteFileManager.downloadFileToLocalStorage(toPath: self.photoPath, url: self.photoUrl) { (success: Bool) in
-                    if success == true {
-                        print("Downloaded epsiode image to local storage")
-                        callback(LocalAndRemoteFileManager.getUIImageFromLocalStorage(atPath: self.photoPath.path)!)
-                    } else {
-                        print("Couldn't download episode image to local storage")
-                        callback(UIImage())
-                    }
+        getImageSemaphore.wait()
+        if LocalAndRemoteFileManager.checkIfFileExistsInLocalStorage(atPath: self.photoPath.path) {
+            getImageSemaphore.signal()
+            callback(LocalAndRemoteFileManager.getUIImageFromLocalStorage(atPath: self.photoPath.path)!)
+        } else {
+            LocalAndRemoteFileManager.downloadFileToLocalStorage(toPath: self.photoPath, url: self.photoUrl) { (success: Bool) in
+                getImageSemaphore.signal()
+                if success == true {
+                    print("Downloaded epsiode image to local storage")
+                    callback(LocalAndRemoteFileManager.getUIImageFromLocalStorage(atPath: self.photoPath.path)!)
+                } else {
+                    print("Couldn't download episode image to local storage")
+                    callback(UIImage())
                 }
             }
         }

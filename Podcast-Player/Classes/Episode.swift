@@ -10,6 +10,8 @@ import AVFoundation
 import UIKit
 import Firebase
 
+var getAudioSemaphore: DispatchSemaphore = DispatchSemaphore(value: 1)
+
 class Episode {
     
     private var title: String
@@ -61,16 +63,17 @@ class Episode {
      * Retrieve the audio for this episode
      */
     func getEpisode(callback: @escaping (AVAudioPlayer?) -> ()) {
-        autoreleasepool {
-            if LocalAndRemoteFileManager.checkIfFileExistsInLocalStorage(atPath: self.audioPath.path) == true {
-                callback(self.getEpisodeFromLocalStorage())
-            } else {
-                LocalAndRemoteFileManager.downloadFileToLocalStorage(toPath: self.audioPath, url: self.audioUrl) { (success: Bool) in
-                    if success == true {
-                        callback(self.getEpisodeFromLocalStorage())
-                    } else {
-                        callback(nil)
-                    }
+        getAudioSemaphore.wait()
+        if LocalAndRemoteFileManager.checkIfFileExistsInLocalStorage(atPath: self.audioPath.path) == true {
+            getAudioSemaphore.signal()
+            callback(self.getEpisodeFromLocalStorage())
+        } else {
+            LocalAndRemoteFileManager.downloadFileToLocalStorage(toPath: self.audioPath, url: self.audioUrl) { (success: Bool) in
+                getAudioSemaphore.signal()
+                if success == true {
+                    callback(self.getEpisodeFromLocalStorage())
+                } else {
+                    callback(nil)
                 }
             }
         }
@@ -80,20 +83,22 @@ class Episode {
      * Retrieve the image for this episode
      */
     func getImage(callback: @escaping (UIImage) -> ()) {
-        autoreleasepool {
-            if LocalAndRemoteFileManager.checkIfFileExistsInLocalStorage(atPath: self.photoPath.path) {
-                callback(LocalAndRemoteFileManager.getUIImageFromLocalStorage(atPath: self.photoPath.path)!)
-            } else {
-                LocalAndRemoteFileManager.downloadFileToLocalStorage(toPath: self.photoPath, url: self.photoUrl) { (success: Bool) in
-                    if success == true {
-                        print("Downloaded epsiode image to local storage")
-                        callback(LocalAndRemoteFileManager.getUIImageFromLocalStorage(atPath: self.photoPath.path)!)
-                    } else {
-                        print("Couldn't download episode image to local storage")
-                        callback(UIImage())
-                    }
+        if LocalAndRemoteFileManager.checkIfFileExistsInLocalStorage(atPath: self.photoPath.path) {
+            callback(LocalAndRemoteFileManager.getUIImageFromLocalStorage(atPath: self.photoPath.path)!)
+        } else {
+            print("Error: Image for show: \(self.showId) was never downloaded")
+            callback(UIImage())
+            /*
+            LocalAndRemoteFileManager.downloadFileToLocalStorage(toPath: self.photoPath, url: self.photoUrl) { (success: Bool) in
+                if success == true {
+                    print("Downloaded epsiode image to local storage")
+                    callback(LocalAndRemoteFileManager.getUIImageFromLocalStorage(atPath: self.photoPath.path)!)
+                } else {
+                    print("Couldn't download episode image to local storage")
+                    callback(UIImage())
                 }
             }
+             */
         }
     }
     
