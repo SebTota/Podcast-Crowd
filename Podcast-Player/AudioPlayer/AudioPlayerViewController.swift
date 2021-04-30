@@ -8,6 +8,7 @@
 import UIKit
 import AVFoundation
 
+var timer: Timer?
 var audioPlayer: AVAudioPlayer?
 var episode: Episode!
 var isPlaying: Bool = false
@@ -35,7 +36,6 @@ class AudioPlayerViewController: UIViewController {
     @IBOutlet weak var timeElapsedLabel: UILabel!
     @IBOutlet weak var timeRemainingLabel: UILabel!
     
-    var timer: Timer?
     var isPlayingBeforeChange: Bool = false
     var isNewEpsiode: Bool = false
     var adIntervals: [[Int]] = []
@@ -46,7 +46,7 @@ class AudioPlayerViewController: UIViewController {
         loadingActivityIndicatorView.startAnimating()
         
         if episode != nil {
-            episode.getAdIntervals { (adIntervals: [[Int]]) in
+            episode.getAdIntervals { [self] (adIntervals: [[Int]]) in
                 self.adIntervals = adIntervals
             }
             
@@ -65,7 +65,6 @@ class AudioPlayerViewController: UIViewController {
         titleLabel.text = episode.getTitle()
         loadPhoto()
         setProgressViewTimer()
-        pause()
         loadAudio()
         updateAudioProgressBar()
         self.enablePlayerButtons()
@@ -88,6 +87,8 @@ class AudioPlayerViewController: UIViewController {
         if episode != nil && episode!.getTitle() == newEpisode.getTitle() {
             return
         }
+        audioPlayer?.stop()
+        timer?.invalidate()
         isNewEpsiode = true
         episode = newEpisode
     }
@@ -118,6 +119,7 @@ class AudioPlayerViewController: UIViewController {
                     
                     self.loadingActivityIndicatorView.isHidden = true
                     self.enablePlayerButtons()
+                    self.play()
                 } catch {
                     print(error)
                 }
@@ -258,7 +260,7 @@ class AudioPlayerViewController: UIViewController {
         }
     }
     @IBAction func progressBarTouch(_ sender: Any) {
-        if let timer = self.timer {
+        if let timer = timer {
             self.isPlayingBeforeChange = isPlaying
             
             // Pause the audio if not already pause

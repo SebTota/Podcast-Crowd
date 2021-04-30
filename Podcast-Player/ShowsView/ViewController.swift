@@ -15,12 +15,23 @@ class ViewController: UIViewController {
     let showsTableViewCellReusableIdentifier: String = "ShowsTableViewCell"
     let showToEpisodeSegueIdentifier: String = "ShowToEpisodeSegueIdentifier"
 
-    var showRssFeeds = ["https://feeds.megaphone.fm/stufftheydontwantyoutoknow", "https://feeds.megaphone.fm/stuffyoushouldknow", "https://feeds.megaphone.fm/replyall", "https://feeds.feedburner.com/WaveformWithMkbhd?format=xml"]
+    var defaultShowRssFeeds: [String] = ["https://feeds.megaphone.fm/stufftheydontwantyoutoknow", "https://feeds.megaphone.fm/stuffyoushouldknow", "https://feeds.megaphone.fm/replyall", "https://feeds.feedburner.com/WaveformWithMkbhd?format=xml"]
+    var showRssFeeds: [String] = []
     var shows: [Show] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initShowsTableView()
+        
+        if let feeds: [String] = UserDefaults.standard.value(forKey: "feeds") as? [String] {
+            print("using saved data")
+            showRssFeeds = feeds
+        } else {
+            print("saving data")
+            UserDefaults.standard.setValue(defaultShowRssFeeds, forKey: "feeds")
+            showRssFeeds = defaultShowRssFeeds
+        }
+        
         createShows()
     }
     

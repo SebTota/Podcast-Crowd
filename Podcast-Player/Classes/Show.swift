@@ -8,8 +8,6 @@
 import Foundation
 import UIKit
 
-var getImageSemaphore: DispatchSemaphore = DispatchSemaphore(value: 1)
-
 class Show {
     private var title: String
     private var showId: String
@@ -17,6 +15,8 @@ class Show {
     private var photoPath: URL
     private var description: String
     private var episodes: [Episode] = []
+    
+    var getImageSemaphore: DispatchSemaphore = DispatchSemaphore(value: 1)
     
     init(title: String, description: String, imageUrl: URL, showId: String) {
         self.title = title
@@ -60,11 +60,11 @@ class Show {
     func getImage(callback: @escaping (UIImage) -> ()) {
         getImageSemaphore.wait()
         if LocalAndRemoteFileManager.checkIfFileExistsInLocalStorage(atPath: self.photoPath.path) {
-            getImageSemaphore.signal()
+            self.getImageSemaphore.signal()
             callback(LocalAndRemoteFileManager.getUIImageFromLocalStorage(atPath: self.photoPath.path)!)
         } else {
             LocalAndRemoteFileManager.downloadFileToLocalStorage(toPath: self.photoPath, url: self.photoUrl) { (success: Bool) in
-                getImageSemaphore.signal()
+                self.getImageSemaphore.signal()
                 if success == true {
                     print("Downloaded epsiode image to local storage")
                     callback(LocalAndRemoteFileManager.getUIImageFromLocalStorage(atPath: self.photoPath.path)!)
