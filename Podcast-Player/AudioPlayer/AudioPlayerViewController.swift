@@ -19,7 +19,7 @@ class AudioPlayerViewController: UIViewController {
     @IBOutlet weak var podcastImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     let playButtonConf = UIImage.SymbolConfiguration(pointSize: 40.0)
-    @IBOutlet weak var loadingActivityIndicatorView: UIActivityIndicatorView!
+    //@IBOutlet weak var loadingActivityIndicatorView: UIActivityIndicatorView!
     
     // Progress Slider
     @IBOutlet weak var progressUISlider: UISlider!
@@ -43,7 +43,14 @@ class AudioPlayerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         enableAdminFeatures()
-        loadingActivityIndicatorView.startAnimating()
+        //loadingActivityIndicatorView.startAnimating()
+        
+        if isNewEpsiode == true {
+            disablePlayerButtons()
+            resetTimeAndProgressBar()
+            titleLabel.text = episode.getTitle()
+            loadPhoto()
+        }
         
         if episode != nil {
             episode.getAdIntervals { [self] (adIntervals: [[Int]]) in
@@ -51,7 +58,7 @@ class AudioPlayerViewController: UIViewController {
             }
             
             if isNewEpsiode == true {
-                viewDidLoadNewSong()
+                loadAudio()
             } else {
                 viewDidLoadContinuePlaying()
             }
@@ -59,23 +66,11 @@ class AudioPlayerViewController: UIViewController {
         isNewEpsiode = false
     }
     
-    func viewDidLoadNewSong() {
-        disablePlayerButtons()
-        resetTimeAndProgressBar()
-        titleLabel.text = episode.getTitle()
-        loadPhoto()
-        setProgressViewTimer()
-        loadAudio()
-        updateAudioProgressBar()
-        self.loadingActivityIndicatorView.isHidden = true
-    }
-    
     func viewDidLoadContinuePlaying() {
         titleLabel.text = episode.getTitle()
         loadPhoto()
-        setProgressViewTimer()
         self.enablePlayerButtons()
-        self.loadingActivityIndicatorView.isHidden = true
+        //self.loadingActivityIndicatorView.isHidden = true
         
         if isPlaying == true {
             play()
@@ -96,6 +91,7 @@ class AudioPlayerViewController: UIViewController {
      * Enable the audio player buttons
      */
     private func enablePlayerButtons() {
+        playButton.isHidden = false
         playButton.isEnabled = true
         backFifteenButton.isEnabled = true
         forwardThirtyButton.isEnabled = true
@@ -125,8 +121,10 @@ class AudioPlayerViewController: UIViewController {
                     try instance.setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default, options: [])
                     try instance.setActive(true, options: [])
                     
-                    self.loadingActivityIndicatorView.isHidden = true
+                    self.updateAudioProgressBar()
+                    //self.loadingActivityIndicatorView.isHidden = true
                     self.enablePlayerButtons()
+                    self.setProgressViewTimer()
                     self.play()
                 } catch {
                     print(error)
@@ -194,6 +192,7 @@ class AudioPlayerViewController: UIViewController {
      * Set a timer to update the progress view slider
      */
     private func setProgressViewTimer() {
+        timer?.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(AudioPlayerViewController.updateAudioProgressBar), userInfo: nil, repeats: true)
     }
     
