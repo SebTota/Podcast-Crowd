@@ -27,16 +27,41 @@ class EpisodesTableViewCell: UITableViewCell {
         titleLabel.text = episode.getTitle()
         descriptionLabel.text = episode.getDescription()
         
-        if episode.episodeIsDownloaded() == false {
-            episodeActionButton.setImage(UIImage(systemName: "arrow.down.circle", withConfiguration: actionButtonConf), for: .normal)
-            action = primaryButtonAction.download
+        if episode.episodeIsDownloaded() == true {
+            setDelete()
         } else {
-            episodeActionButton.setImage(UIImage(systemName: "trash.circle", withConfiguration: actionButtonConf), for: .normal)
-            action = primaryButtonAction.download
+            setDownload()
         }
     }
     
     @IBAction func actionButtonPrimaryActionTriggered(_ sender: Any) {
-        
+        if let action = action, let episode = episode {
+            if action == primaryButtonAction.download {
+                episodeActionButton.isEnabled = false
+                episode.downloadEpisode { (success: Bool) in
+                    DispatchQueue.main.async {
+                        if success == true {
+                            self.setDelete()
+                            self.episodeActionButton.isEnabled = true
+                        } else {
+                            self.episodeActionButton.isEnabled = true
+                        }
+                    }
+                }
+            } else if action == primaryButtonAction.delete {
+                episode.deleteEpisode()
+                setDownload()
+            }
+        }
+    }
+    
+    private func setDelete() {
+        episodeActionButton.setImage(UIImage(systemName: "trash.circle", withConfiguration: actionButtonConf), for: .normal)
+        action = primaryButtonAction.delete
+    }
+    
+    private func setDownload() {
+        episodeActionButton.setImage(UIImage(systemName: "arrow.down.circle", withConfiguration: actionButtonConf), for: .normal)
+        action = primaryButtonAction.download
     }
 }

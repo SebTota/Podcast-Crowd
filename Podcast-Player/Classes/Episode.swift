@@ -10,8 +10,6 @@ import AVFoundation
 import UIKit
 import Firebase
 
-var getAudioSemaphore: DispatchSemaphore = DispatchSemaphore(value: 1)
-
 class Episode {
     
     private var title: String
@@ -23,6 +21,7 @@ class Episode {
     private var description: String
     
     private var db: DocumentReference
+    var getAudioSemaphore: DispatchSemaphore = DispatchSemaphore(value: 1)
     
     init(title: String, audioUrl: URL, photoUrl: URL, description: String, showId: String) {
         self.title = title
@@ -60,6 +59,31 @@ class Episode {
     }
     
     /*
+     * Download episode from local storage
+     */
+    func downloadEpisode(callback: @escaping (Bool) -> (), holdSemaphore: Bool = true) {
+        print("Downloading episode")
+        if holdSemaphore == true { getAudioSemaphore.wait()}
+        if LocalAndRemoteFileManager.checkIfFileExistsInLocalStorage(atPath: self.audioPath.path) == false {
+            LocalAndRemoteFileManager.downloadFileToLocalStorage(toPath: self.audioPath, url: self.audioUrl) { (success: Bool) in
+                if holdSemaphore == true { self.getAudioSemaphore.signal() }
+                callback(true)
+            }
+        } else {
+            if holdSemaphore == true { self.getAudioSemaphore.signal() }
+            callback(false)
+        }
+    }
+    
+    /*
+     * Delete episode from local storage
+     */
+    func deleteEpisode() {
+        print("Deleting epsiode")
+        LocalAndRemoteFileManager.deleteFileFromLocalStorage(atPath: self.audioPath)
+    }
+    
+    /*
      * Retrieve the audio for this episode
      */
     func getEpisode(callback: @escaping (AVAudioPlayer?) -> ()) {
@@ -68,14 +92,14 @@ class Episode {
             getAudioSemaphore.signal()
             callback(self.getEpisodeFromLocalStorage())
         } else {
-            LocalAndRemoteFileManager.downloadFileToLocalStorage(toPath: self.audioPath, url: self.audioUrl) { (success: Bool) in
-                getAudioSemaphore.signal()
+            downloadEpisode(callback: { (success: Bool) in
+                self.getAudioSemaphore.signal()
                 if success == true {
                     callback(self.getEpisodeFromLocalStorage())
                 } else {
                     callback(nil)
                 }
-            }
+            }, holdSemaphore: false)
         }
     }
     

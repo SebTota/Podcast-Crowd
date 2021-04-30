@@ -40,8 +40,6 @@ class LocalAndRemoteFileManager {
      */
     static func downloadFileToLocalStorage(toPath: URL, url: URL, callback: @escaping (Bool) -> ()) {
         print("Downloading file to local storage")
-        print(toPath)
-        print(toPath.deletingLastPathComponent())
         do {
             try FileManager.default.createDirectory(at: toPath.deletingLastPathComponent(), withIntermediateDirectories: true, attributes: nil)
         } catch {
@@ -62,6 +60,18 @@ class LocalAndRemoteFileManager {
                 callback(false)
             }
         }.resume()
+    }
+    
+    /*
+     * Delete a local file
+     * @param   URL     Path of the file to delete
+     */
+    static func deleteFileFromLocalStorage(atPath: URL) {
+        do {
+            try FileManager.default.removeItem(at: atPath)
+        } catch  {
+            print("Error deleting file: \(error)")
+        }
     }
     
 }
