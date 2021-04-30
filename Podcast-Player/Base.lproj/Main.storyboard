@@ -70,6 +70,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1Ob-Ql-hTL">
+                        <barButtonItem key="leftBarButtonItem" title="Add RSS Feed" id="XQq-mS-ewq">
+                            <connections>
+                                <action selector="addRssFeedButtonPressed:" destination="o25-Be-QNM" id="cBa-qD-R7R"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Player" id="qJo-93-2BL">
                             <connections>
                                 <segue destination="BYZ-38-t0r" kind="show" id="f7k-ez-TLf"/>
@@ -84,6 +89,48 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h5B-gW-4k8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="667.28971962616822" y="115.98272138228943"/>
+        </scene>
+        <!--New Rss Feed View Controller-->
+        <scene sceneID="mYD-9d-UZc">
+            <objects>
+                <viewController storyboardIdentifier="NewRssFeedViewController" id="vrz-vw-Zrf" customClass="NewRssFeedViewController" customModule="Podcast_Player" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YZz-xt-y5c">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RSS Feed URL:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9q8-Ry-JzY">
+                                <rect key="frame" x="20" y="248" width="388" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xo8-OT-3ux">
+                                <rect key="frame" x="20" y="320" width="388" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="rssFeedInputBoxPrimaryAction:" destination="vrz-vw-Zrf" eventType="primaryActionTriggered" id="Dd7-g7-XgJ"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="v2R-sq-vao"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="xo8-OT-3ux" firstAttribute="leading" secondItem="v2R-sq-vao" secondAttribute="leading" constant="20" id="2ZU-db-t0x"/>
+                            <constraint firstItem="9q8-Ry-JzY" firstAttribute="top" secondItem="v2R-sq-vao" secondAttribute="top" constant="204" id="6x3-50-fKP"/>
+                            <constraint firstItem="v2R-sq-vao" firstAttribute="trailing" secondItem="9q8-Ry-JzY" secondAttribute="trailing" constant="20" id="iwu-O6-YY1"/>
+                            <constraint firstItem="v2R-sq-vao" firstAttribute="trailing" secondItem="xo8-OT-3ux" secondAttribute="trailing" constant="20" id="mav-PV-KAg"/>
+                            <constraint firstItem="9q8-Ry-JzY" firstAttribute="leading" secondItem="v2R-sq-vao" secondAttribute="leading" constant="20" id="pcf-3d-U6F"/>
+                            <constraint firstItem="xo8-OT-3ux" firstAttribute="top" secondItem="9q8-Ry-JzY" secondAttribute="bottom" constant="42" id="qIr-9h-01s"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="rssFeedInput" destination="xo8-OT-3ux" id="35b-oM-15Y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PZi-Zc-Vuh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="665.8878504672897" y="878.61771058315344"/>
         </scene>
         <!--Audio Player View Controller-->
         <scene sceneID="tne-QT-ifu">

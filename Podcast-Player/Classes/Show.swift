@@ -10,6 +10,7 @@ import UIKit
 
 class Show {
     private var title: String
+    private var showUrl: URL
     private var showId: String
     private var photoUrl: URL
     private var photoPath: URL
@@ -18,8 +19,9 @@ class Show {
     
     var getImageSemaphore: DispatchSemaphore = DispatchSemaphore(value: 1)
     
-    init(title: String, description: String, imageUrl: URL, showId: String) {
+    init(title: String, showUrl: URL, description: String, imageUrl: URL, showId: String) {
         self.title = title
+        self.showUrl = showUrl
         self.description = description
         self.photoUrl = imageUrl
         self.showId = showId
@@ -28,6 +30,10 @@ class Show {
         let baseDir = documentsDirectoryURL.appendingPathComponent(showId)
         self.photoPath = baseDir.appendingPathComponent(photoUrl.lastPathComponent)
         self.getImage { (image: UIImage) in }
+    }
+    
+    func getShowUrl() -> URL {
+        return showUrl
     }
     
     func getShowId() -> String {

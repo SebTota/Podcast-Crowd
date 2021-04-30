@@ -22,10 +22,13 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initShowsTableView()
-        
+        getFeeds()
+    }
+    
+    func getFeeds() {
         if let feeds: [String] = UserDefaults.standard.value(forKey: "feeds") as? [String] {
             print("using saved data")
-            showRssFeeds = feeds
+            showRssFeeds = Array(Set(feeds))
         } else {
             print("saving data")
             UserDefaults.standard.setValue(defaultShowRssFeeds, forKey: "feeds")
@@ -42,6 +45,7 @@ class ViewController: UIViewController {
     }
     
     private func createShows() {
+        shows = []
         for show in showRssFeeds {
             if let showUrl = URL(string: show) {
                 let p = RssFeedParser(url: showUrl)
@@ -58,6 +62,17 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    @IBAction func addRssFeedButtonPressed(_ sender: Any) {
+        
+        if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NewRssFeedViewController") as? NewRssFeedViewController {
+            vc.callbackClosure = {
+                self.getFeeds()
+            }
+            present(vc, animated: true, completion: nil)
+        }
+    }
+    
 }
 
 
@@ -99,5 +114,20 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         dispatch_queue_main_t.main.async() {
             self.performSegue(withIdentifier: self.showToEpisodeSegueIdentifier, sender: show)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let showUrl: String = shows[indexPath.item].getShowUrl().absoluteString
+        
+        print(showUrl)
+        
+        // Remove show URL from saved URLs
+        if let index = showRssFeeds.firstIndex(of: showUrl) {
+            showRssFeeds.remove(at: index)
+        }
+        UserDefaults.standard.setValue(showRssFeeds, forKey: "feeds")
+        
+        shows.remove(at: indexPath.item)
+        showsTableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.left)
     }
 }
