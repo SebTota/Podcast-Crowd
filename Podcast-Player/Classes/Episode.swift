@@ -137,7 +137,6 @@ class Episode {
                     adIntervals.sort { ($0[0] as Int) < ($1[0] as Int) }
                     callback(adIntervals)
                 } else {
-                    print("Document does not exist")
                     callback([])
                 }
             }
@@ -149,5 +148,12 @@ class Episode {
      */
     func resetAdIntervals() {
         db.updateData(["ads": FieldValue.delete()])
+    }
+    
+    /*
+     * Check if episode is already downloaded locally
+     */
+    func episodeIsDownloaded() -> Bool {
+        return LocalAndRemoteFileManager.checkIfFileExistsInLocalStorage(atPath: self.audioPath.path)
     }
 }

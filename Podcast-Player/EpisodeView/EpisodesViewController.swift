@@ -22,7 +22,7 @@ class EpisodesViewController: UIViewController {
     }
     
     private func initEpisodeTableView() {
-        episodesTableView.rowHeight = 130.0
+        episodesTableView.rowHeight = 145.0
         episodesTableView.delegate = self
         episodesTableView.dataSource = self
     }
@@ -38,8 +38,7 @@ extension EpisodesViewController: UITableViewDelegate, UITableViewDataSource {
         let row = episodesTableView.dequeueReusableCell(withIdentifier: episodesTableViewCellReusableIdentifier, for: indexPath) as! EpisodesTableViewCell
         
         let episode = show.getEpisode(index: indexPath.item)
-        row.titleLabel.text = episode.getTitle()
-        row.descriptionLabel.text = episode.getDescription()
+        row.setup(episode: episode)
         return row
     }
     
