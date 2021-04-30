@@ -143,4 +143,11 @@ class Episode {
             }
         }
     }
+    
+    /*
+     * Remove all ad intervals for this episode
+     */
+    func resetAdIntervals() {
+        db.updateData(["ads": FieldValue.delete()])
+    }
 }

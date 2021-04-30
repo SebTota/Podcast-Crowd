@@ -69,6 +69,7 @@ class AudioPlayerViewController: UIViewController {
     func viewDidLoadContinuePlaying() {
         titleLabel.text = episode.getTitle()
         loadPhoto()
+        setProgressViewTimer()
         self.enablePlayerButtons()
         //self.loadingActivityIndicatorView.isHidden = true
         
@@ -259,6 +260,9 @@ class AudioPlayerViewController: UIViewController {
         }
     }
     
+    /*
+     * Play button pressed
+     */
     @IBAction func playButtonPressed(_ sender: Any) {
         if isPlaying == false {
             play()
@@ -266,6 +270,10 @@ class AudioPlayerViewController: UIViewController {
             pause()
         }
     }
+    
+    /*
+     * Progress button has been touched
+     */
     @IBAction func progressBarTouch(_ sender: Any) {
         if let timer = timer {
             self.isPlayingBeforeChange = isPlaying
@@ -275,6 +283,10 @@ class AudioPlayerViewController: UIViewController {
             timer.invalidate()
         }
     }
+    
+    /*
+     * Editing of progress bar finished
+     */
     @IBAction func progressBarTouchUp(_ sender: Any) {
         if let audioPlayer = audioPlayer {
             audioPlayer.currentTime = TimeInterval(progressUISlider.value)
@@ -289,6 +301,9 @@ class AudioPlayerViewController: UIViewController {
         }
     }
     
+    /*
+     * Progress bar value has changed by user
+     */
     @IBAction func progressBarChange(_ sender: Any) {
         if let audioPlayer = audioPlayer {
             timeElapsedLabel.text = secondsToTextDisplay(seconds: Int(progressUISlider.value))
@@ -296,14 +311,23 @@ class AudioPlayerViewController: UIViewController {
         }
     }
     
+    /*
+     * Fast forward thirty seconds
+     */
     @IBAction func forwardThirtyPressed(_ sender: UIButton) {
         forwardThirty()
     }
     
+    /*
+     * Reverse fifteen seconds
+     */
     @IBAction func reverseFifteenPressed(_ sender: Any) {
         reverseFifteen()
     }
     
+    /*
+     * Ad start button pressed
+     */
     @IBAction func adStartPressed(_ sender: Any) {
         if let audioPlayer = audioPlayer {
             adStartTime = audioPlayer.currentTime
@@ -311,6 +335,9 @@ class AudioPlayerViewController: UIViewController {
         }
     }
     
+    /*
+     * Ad end button was pressed
+     */
     @IBAction func adStopPressed(_ sender: Any) {
         if let start = adStartTime, let audioPlayer = audioPlayer {
             let end = audioPlayer.currentTime
@@ -320,9 +347,20 @@ class AudioPlayerViewController: UIViewController {
             }
             
             episode.addAdInterval(start: Int(start), end: Int(end))
+            self.adIntervals.append([Int(start), Int(end)])
             adStartTime = nil
             adStopButton.isEnabled = false
         }
     }
     
+    /*
+     * Reset episode button pressed.
+     * Remove all ad intervals associated with this episode
+     */
+    @IBAction func resetEpisodeButtonPressed(_ sender: Any) {
+        if let episode = episode {
+            episode.resetAdIntervals()
+            self.adIntervals = []
+        }
+    }
 }

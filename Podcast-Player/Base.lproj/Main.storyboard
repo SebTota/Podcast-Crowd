@@ -308,7 +308,13 @@
                             <constraint firstItem="wNp-2Y-592" firstAttribute="bottom" secondItem="eF2-Uc-waX" secondAttribute="bottom" id="vvq-fZ-hps"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Vqm-9f-Lp7"/>
+                    <navigationItem key="navigationItem" id="Vqm-9f-Lp7">
+                        <barButtonItem key="rightBarButtonItem" title="Reset Episode" id="ghc-Ne-2fM">
+                            <connections>
+                                <action selector="resetEpisodeButtonPressed:" destination="BYZ-38-t0r" id="UVe-go-zPp"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="adStartButton" destination="wNp-2Y-592" id="YZO-G0-aA0"/>
                         <outlet property="adStopButton" destination="I91-Qc-5EM" id="gqP-Np-NBV"/>
