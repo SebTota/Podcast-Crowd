@@ -284,10 +284,7 @@ class AudioPlayerViewController: UIViewController {
         }
     }
     
-    /*
-     * Editing of progress bar finished
-     */
-    @IBAction func progressBarTouchUp(_ sender: Any) {
+    private func doneEditingSlider() {
         if let audioPlayer = audioPlayer {
             audioPlayer.currentTime = TimeInterval(progressUISlider.value)
         }
@@ -299,6 +296,17 @@ class AudioPlayerViewController: UIViewController {
         if self.isPlayingBeforeChange == true {
             play()
         }
+    }
+    
+    /*
+     * Editing of progress bar finished
+     */
+    @IBAction func progressBarTouchUp(_ sender: Any) {
+        doneEditingSlider()
+    }
+    
+    @IBAction func progressBarTouchUpOutside(_ sender: Any) {
+        doneEditingSlider()
     }
     
     /*

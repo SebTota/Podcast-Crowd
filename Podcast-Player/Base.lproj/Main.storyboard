@@ -161,6 +161,7 @@
                                     <action selector="progressBarChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="kUH-1U-6cF"/>
                                     <action selector="progressBarTouch:" destination="BYZ-38-t0r" eventType="touchDown" id="HDM-cW-WnB"/>
                                     <action selector="progressBarTouchUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4QH-9V-rKH"/>
+                                    <action selector="progressBarTouchUpOutside:" destination="BYZ-38-t0r" eventType="touchUpOutside" id="8lA-MA-pd0"/>
                                 </connections>
                             </slider>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wNp-2Y-592">
@@ -401,7 +402,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jqj-i3-aSt">
-                                                    <rect key="frame" x="20" y="55" width="334" height="41"/>
+                                                    <rect key="frame" x="20" y="55" width="374" height="50"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <string key="text">Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label </string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -409,7 +410,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JCJ-vh-0XG">
-                                                    <rect key="frame" x="20" y="11" width="334" height="46"/>
+                                                    <rect key="frame" x="20" y="11" width="374" height="46"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <string key="text">Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label Label </string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -431,8 +432,8 @@
                                                         <action selector="actionButtonPrimaryActionTriggered:" destination="i2M-gk-b59" eventType="primaryActionTriggered" id="Lmt-aV-Dta"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c0o-Jw-BT1">
-                                                    <rect key="frame" x="20" y="112" width="140" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c0o-Jw-BT1">
+                                                    <rect key="frame" x="20" y="133" width="140" height="0.0"/>
                                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="u5n-z7-Hfp"/>
