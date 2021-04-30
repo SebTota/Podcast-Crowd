@@ -51,7 +51,6 @@ class AudioPlayerViewController: UIViewController {
             }
             
             if isNewEpsiode == true {
-                print("New podcast playing")
                 viewDidLoadNewSong()
             } else {
                 viewDidLoadContinuePlaying()
@@ -61,13 +60,13 @@ class AudioPlayerViewController: UIViewController {
     }
     
     func viewDidLoadNewSong() {
+        disablePlayerButtons()
         resetTimeAndProgressBar()
         titleLabel.text = episode.getTitle()
         loadPhoto()
         setProgressViewTimer()
         loadAudio()
         updateAudioProgressBar()
-        self.enablePlayerButtons()
         self.loadingActivityIndicatorView.isHidden = true
     }
     
@@ -103,6 +102,15 @@ class AudioPlayerViewController: UIViewController {
         if let audioPlayer = audioPlayer {
             progressUISlider.maximumValue = Float(audioPlayer.duration)
         }
+    }
+    
+    /*
+     * Disable the audio player buttons
+     */
+    private func disablePlayerButtons() {
+        playButton.isEnabled = false
+        backFifteenButton.isEnabled = false
+        forwardThirtyButton.isEnabled = false
     }
     
     /*
