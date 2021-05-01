@@ -19,7 +19,6 @@ class AudioPlayerViewController: UIViewController {
     @IBOutlet weak var podcastImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     let playButtonConf = UIImage.SymbolConfiguration(pointSize: 40.0)
-    //@IBOutlet weak var loadingActivityIndicatorView: UIActivityIndicatorView!
     
     // Progress Slider
     @IBOutlet weak var progressUISlider: UISlider!
@@ -43,9 +42,9 @@ class AudioPlayerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         enableAdminFeatures()
-        //loadingActivityIndicatorView.startAnimating()
         
         if isNewEpsiode == true {
+            timer?.invalidate()
             disablePlayerButtons()
             resetTimeAndProgressBar()
             titleLabel.text = episode.getTitle()
@@ -71,7 +70,6 @@ class AudioPlayerViewController: UIViewController {
         loadPhoto()
         setProgressViewTimer()
         self.enablePlayerButtons()
-        //self.loadingActivityIndicatorView.isHidden = true
         
         if isPlaying == true {
             play()
@@ -114,6 +112,7 @@ class AudioPlayerViewController: UIViewController {
      * Load in the audio file for the chosen episode
      */
     private func loadAudio() {
+        audioPlayer?.stop()
         episode.getEpisode { (newAudioPlayer: AVAudioPlayer?) in
             audioPlayer = newAudioPlayer
             DispatchQueue.main.async {
