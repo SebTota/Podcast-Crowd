@@ -29,6 +29,7 @@ class AudioPlayerViewController: UIViewController {
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var adStartButton: UIButton!
     @IBOutlet weak var adStopButton: UIButton!
+    @IBOutlet weak var resetEpisodeButton: UIBarButtonItem!
     
     
     // Labels
@@ -154,6 +155,7 @@ class AudioPlayerViewController: UIViewController {
                 adStartButton.isHidden = false
                 adStartButton.isEnabled = true
                 adStopButton.isHidden = false
+                resetEpisodeButton.isEnabled = true
             } else {
                 print("User is not admin")
             }

@@ -31,7 +31,7 @@ class EpisodesTableViewCell: UITableViewCell {
         
         if let date = episode.getDate() {
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MMM d, YY"
+            dateFormatter.dateFormat = "MMM d, YYYY"
             dateLabel.text = dateFormatter.string(from: date)
         }
         
