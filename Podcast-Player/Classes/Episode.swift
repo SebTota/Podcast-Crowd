@@ -12,23 +12,30 @@ import Firebase
 
 class Episode {
     
+    // Episode metadata
     private var title: String
-    private var audioUrl: URL
-    private var photoUrl: URL
-    private var audioPath: URL
-    private var photoPath: URL
     private var showId: String
     private var description: String
+    private var date: Date?
+    
+    // Remote URLs of files
+    private var audioUrl: URL
+    private var photoUrl: URL
+    
+    // Local paths of files
+    private var audioPath: URL
+    private var photoPath: URL
     
     private var db: DocumentReference
     var getAudioSemaphore: DispatchSemaphore = DispatchSemaphore(value: 1)
     
-    init(title: String, audioUrl: URL, photoUrl: URL, description: String, showId: String) {
+    init(title: String, audioUrl: URL, photoUrl: URL, description: String, showId: String, date: Date?) {
         self.title = title
         self.description = description
         self.photoUrl = photoUrl
         self.audioUrl = audioUrl
         self.showId = showId
+        self.date = date
         
         self.db = Firestore.firestore().collection("podcasts").document(showId).collection("episodes").document(audioUrl.lastPathComponent)
         
@@ -44,6 +51,10 @@ class Episode {
     
     func getDescription() -> String {
         return self.description
+    }
+    
+    func getDate() -> Date? {
+        return self.date
     }
     
     /*

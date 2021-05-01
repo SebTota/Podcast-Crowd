@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Foundation
 
 enum primaryButtonAction {
     case download
@@ -14,6 +15,7 @@ enum primaryButtonAction {
 
 class EpisodesTableViewCell: UITableViewCell {
     let actionButtonConf = UIImage.SymbolConfiguration(pointSize: 25.0)
+    
     var episode: Episode?
     var action: primaryButtonAction?
 
@@ -26,6 +28,12 @@ class EpisodesTableViewCell: UITableViewCell {
         self.episode = episode
         titleLabel.text = episode.getTitle()
         descriptionLabel.text = episode.getDescription()
+        
+        if let date = episode.getDate() {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM d, YY"
+            dateLabel.text = dateFormatter.string(from: date)
+        }
         
         if episode.episodeIsDownloaded() == true {
             setDelete()
