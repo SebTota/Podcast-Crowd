@@ -2,9 +2,6 @@
 
 Podcast Crowd is a community driven iOS application that automatically skips advertisements within podcast episodes.
 
-## How does it work?
-Admin users mark the time stamps within a podcast during which an ad occurs. After an episode has been 
-
 ## Features
 * Ad-free podcast listening
 * Capability to download podcast episodes for offline listening
